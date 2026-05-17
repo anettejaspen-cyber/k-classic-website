@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K. Classics — Class Beyond Time</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;500;600&family=Josefin+Sans:wght@100;300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #9a7a2e;
+    --navy: #0a0e1a;
+    --navy-mid: #121829;
+    --navy-light: #1c2540;
+    --white: #f5f0e8;
+    --cream: #e8ddc8;
+    --gray: #8a8a9a;
+    --blue-accent: #1a3a6e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 18px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(180deg, rgba(10,14,26,0.98) 0%, rgba(10,14,26,0) 100%);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.75rem; font-weight: 300;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--cream); text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--navy); background: var(--gold);
+    padding: 10px 24px; text-decoration: none;
+    transition: all 0.3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 25px; height: 2px; background: var(--gold); transition: 0.3s; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 70% 50%, #1a3a6e33 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 80%, #c9a84c11 0%, transparent 50%),
+                linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    display: flex; align-items: center;
+    padding: 100px 5% 60px;
+    position: relative; overflow: hidden;
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 600px; }
+
+  .hero-badge {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(201,168,76,0.4);
+    padding: 7px 18px; display: inline-block;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 900; line-height: 1.05;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.8s ease 0.15s both;
+  }
+  .hero-title .gold { color: var(--gold); }
+  .hero-title em { font-style: italic; color: var(--cream); }
+
+  .hero-tagline {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.75rem; letter-spacing: 6px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 1.8rem;
+    animation: fadeInUp 0.8s ease 0.3s both;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem; font-weight: 300; line-height: 1.8;
+    color: var(--cream); margin-bottom: 2.5rem;
+    animation: fadeInUp 0.8s ease 0.45s both;
+  }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeInUp 0.8s ease 0.6s both; }
+
+  .btn-primary {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--navy); background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    padding: 14px 36px; text-decoration: none;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: all 0.3s; display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+
+  .btn-outline {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.72rem; font-weight: 300; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(201,168,76,0.5);
+    padding: 14px 36px; text-decoration: none; display: inline-block;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+
+  .hero-stats {
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 2rem;
+    animation: fadeInRight 1s ease 0.6s both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 700; color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gray);
+  }
+
+  .hero-watch-glow {
+    position: absolute; right: 12%; top: 50%; transform: translateY(-50%);
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  /* SECTION STYLES */
+  section { padding: 100px 5%; }
+
+  .section-header { text-align: center; margin-bottom: 5rem; }
+
+  .section-eyebrow {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 6px; text-transform: uppercase;
+    color: var(--gold); display: block; margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.2;
+  }
+  .section-title .italic { font-style: italic; color: var(--gold); }
+
+  .section-divider {
+    width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem auto;
+  }
+
+  /* COLLECTION */
+  #collection { background: var(--navy-mid); }
+
+  .watches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+
+  .watch-card {
+    background: var(--navy-light);
+    padding: 2.5rem 2rem;
+    cursor: pointer;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.08);
+  }
+  .watch-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .watch-card:hover { background: #1e2a42; transform: translateY(-4px); }
+  .watch-card:hover::before { transform: scaleX(1); }
+
+  .watch-emoji { font-size: 3.5rem; margin-bottom: 1.5rem; display: block; }
+
+  .watch-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 0.5rem; color: var(--white);
+  }
+
+  .watch-ref {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray); margin-bottom: 1rem;
+  }
+
+  .watch-desc { font-size: 0.95rem; line-height: 1.7; color: rgba(245,240,232,0.7); margin-bottom: 1.5rem; }
+
+  .watch-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .watch-tag {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 12px; border: 1px solid;
+    display: inline-block; margin-bottom: 1.2rem;
+  }
+  .tag-blue { color: #4a9eff; border-color: rgba(74,158,255,0.4); }
+  .tag-gold { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+  .tag-green { color: #4aff9e; border-color: rgba(74,255,158,0.4); }
+  .tag-red { color: #ff6b6b; border-color: rgba(255,107,107,0.4); }
+
+  .btn-order {
+    width: 100%;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--navy); background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    padding: 12px; border: none; cursor: pointer;
+    transition: all 0.3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-order:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ORDER FORM */
+  #order { background: var(--navy); }
+
+  .order-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+
+  .order-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; margin-bottom: 1.5rem;
+  }
+  .order-info p { font-size: 1rem; line-height: 1.9; color: rgba(245,240,232,0.75); margin-bottom: 2rem; }
+
+  .order-perks { list-style: none; }
+  .order-perks li {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--cream); padding: 12px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .perk-icon { color: var(--gold); font-size: 1rem; }
+
+  /* FORMS */
+  .form-card {
+    background: var(--navy-light);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 3rem;
+    position: relative;
+  }
+  .form-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+  }
+
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; margin-bottom: 2rem; color: var(--gold);
+  }
+
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray); display: block; margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--white);
+    padding: 14px 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    outline: none;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+  }
+  .form-group select option { background: var(--navy-light); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .btn-submit {
+    width: 100%;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--navy); background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    padding: 16px; border: none; cursor: pointer;
+    transition: all 0.3s; margin-top: 0.5rem;
+  }
+  .btn-submit:hover { opacity: 0.9; box-shadow: 0 6px 25px rgba(201,168,76,0.35); }
+
+  /* SIGNUP */
+  #signup { background: var(--navy-mid); }
+
+  .signup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+
+  .signup-visual {
+    text-align: center;
+    padding: 3rem;
+    border: 1px solid rgba(201,168,76,0.1);
+    background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
+    position: relative;
+  }
+  .signup-visual::after {
+    content: '♛';
+    font-size: 8rem; color: rgba(201,168,76,0.08);
+    position: absolute; bottom: -20px; right: -10px;
+    font-family: serif;
+  }
+  .signup-visual h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; margin-bottom: 1rem; color: var(--gold);
+  }
+  .signup-visual p { color: rgba(245,240,232,0.7); line-height: 1.8; }
+
+  .benefits-list { list-style: none; margin-top: 2rem; text-align: left; }
+  .benefits-list li {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--cream); padding: 10px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .benefits-list li::before { content: '◆'; color: var(--gold); font-size: 0.5rem; }
+
+  /* TRACKING */
+  #tracking { background: var(--navy); }
+
+  .tracking-container { max-width: 700px; margin: 0 auto; }
+
+  .tracking-steps {
+    display: flex; justify-content: space-between;
+    margin-bottom: 3rem; position: relative;
+  }
+  .tracking-steps::before {
+    content: '';
+    position: absolute; top: 20px; left: 10%; right: 10%;
+    height: 1px; background: rgba(201,168,76,0.2);
+  }
+
+  .track-step { text-align: center; position: relative; flex: 1; }
+  .step-dot {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 0.8rem; font-size: 1rem;
+    background: var(--navy-mid);
+    transition: all 0.3s;
+  }
+  .step-dot.active {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.15);
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+  .step-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray);
+  }
+  .step-label.active { color: var(--gold); }
+
+  .tracking-result {
+    background: var(--navy-light);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 2rem; margin-top: 2rem;
+    display: none;
+  }
+  .tracking-result.show { display: block; }
+  .track-info { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+  .track-item label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray); display: block; margin-bottom: 5px;
+  }
+  .track-item span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--white);
+  }
+
+  /* MAP */
+  #map-section { background: var(--navy-mid); }
+
+  .map-container {
+    border: 1px solid rgba(201,168,76,0.15);
+    overflow: hidden; position: relative;
+  }
+  .map-overlay {
+    position: absolute; top: 20px; left: 20px; z-index: 10;
+    background: rgba(10,14,26,0.9); backdrop-filter: blur(10px);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 1.5rem; max-width: 280px;
+  }
+  .map-overlay h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .map-overlay p {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--cream); line-height: 1.8;
+  }
+
+  iframe { width: 100%; height: 400px; border: none; filter: hue-rotate(180deg) invert(1) brightness(0.6); }
+
+  .stores-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .store-card {
+    background: var(--navy-light); border: 1px solid rgba(201,168,76,0.1);
+    padding: 1.8rem; transition: border-color 0.3s;
+  }
+  .store-card:hover { border-color: rgba(201,168,76,0.4); }
+  .store-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .store-card p {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray); line-height: 2;
+  }
+
+  /* SOCIAL */
+  #social { background: var(--navy); }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .social-card {
+    background: var(--navy-light); border: 1px solid rgba(201,168,76,0.1);
+    padding: 2.5rem 2rem; text-align: center;
+    transition: all 0.3s; text-decoration: none;
+    display: block; position: relative; overflow: hidden;
+  }
+  .social-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .social-card.tiktok::before { background: linear-gradient(135deg, #00f2ea22, #ff004422); }
+  .social-card.instagram::before { background: linear-gradient(135deg, #f0982222, #e6683c22, #dc2743aa11); }
+  .social-card.whatsapp::before { background: linear-gradient(135deg, #25d36622, transparent); }
+  .social-card.facebook::before { background: linear-gradient(135deg, #1877f222, transparent); }
+  .social-card:hover { transform: translateY(-4px); border-color: rgba(201,168,76,0.3); }
+  .social-card:hover::before { opacity: 1; }
+
+  .social-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  .social-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--white); margin-bottom: 0.5rem;
+    display: block;
+  }
+  .social-handle {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .social-followers {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray); margin-top: 0.8rem; display: block;
+  }
+
+  /* CONTACT BAR */
+  .contact-bar {
+    background: linear-gradient(135deg, var(--navy-light), var(--blue-accent));
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 2rem 5%;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; color: var(--white); transition: color 0.3s;
+  }
+  .contact-item:hover { color: var(--gold); }
+  .contact-icon { font-size: 1.5rem; }
+  .contact-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gray); display: block; margin-bottom: 3px;
+  }
+  .contact-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #050810;
+    padding: 3rem 5% 2rem;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    margin-top: 2rem; padding-top: 2rem;
+    border-top: 1px solid rgba(201,168,76,0.08);
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900; color: var(--gold);
+  }
+  .footer-copy {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+    background: var(--navy-light); border: 1px solid var(--gold);
+    padding: 1rem 1.5rem; max-width: 350px;
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.4s;
+    border-left: 4px solid var(--gold);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-title {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.3rem;
+  }
+  .toast-msg { font-size: 0.95rem; color: var(--cream); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(5,8,16,0.92); backdrop-filter: blur(10px);
+    display: none; align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--navy-light);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 3rem; max-width: 500px; width: 100%;
+    position: relative;
+    animation: modalIn 0.4s ease;
+  }
+  .modal::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; color: var(--gray);
+    font-size: 1.5rem; cursor: pointer; transition: color 0.3s;
+  }
+  .modal-close:hover { color: var(--gold); }
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .modal p { color: rgba(245,240,232,0.75); margin-bottom: 2rem; line-height: 1.7; }
+  .order-summary {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 1.2rem; margin-bottom: 2rem;
+  }
+  .order-summary-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.5rem 0; border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+  .order-summary-row:last-child { border-bottom: none; }
+  .order-summary-row span:first-child {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray);
+  }
+  .order-summary-row span:last-child { font-family: 'Playfair Display', serif; color: var(--white); }
+  .order-total { font-size: 1.3rem !important; color: var(--gold) !important; }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.94) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .order-grid, .signup-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-stats { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .contact-bar { flex-direction: column; align-items: flex-start; }
+    nav { padding: 15px 4%; }
+  }
+
+  /* MOBILE NAV */
+  .mobile-nav {
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(5,8,16,0.98); backdrop-filter: blur(20px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2.5rem; transform: translateX(100%); transition: transform 0.4s;
+  }
+  .mobile-nav.open { transform: translateX(0); }
+  .mobile-nav a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--cream); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-nav a:hover { color: var(--gold); }
+  .mobile-nav-close {
+    position: absolute; top: 1.5rem; right: 5%;
+    background: none; border: none; color: var(--gold);
+    font-size: 2rem; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">K<span>.</span> Classics</a>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#order">Order</a></li>
+    <li><a href="#signup">Join</a></li>
+    <li><a href="#tracking">Track</a></li>
+    <li><a href="#map-section">Stores</a></li>
+    <li><a href="#social">Social</a></li>
+  </ul>
+  <a href="#order" class="nav-cta">Order Now</a>
+  <div class="hamburger" onclick="openMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
+  <a href="#collection" onclick="closeMobileNav()">Collection</a>
+  <a href="#order" onclick="closeMobileNav()">Order</a>
+  <a href="#signup" onclick="closeMobileNav()">Join</a>
+  <a href="#tracking" onclick="closeMobileNav()">Track Order</a>
+  <a href="#map-section" onclick="closeMobileNav()">Stores</a>
+  <a href="#social" onclick="closeMobileNav()">Social</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-watch-glow"></div>
+  <div class="hero-content">
+    <span class="hero-badge">✦ Premium Timepieces · Since 2020 ✦</span>
+    <h1 class="hero-title">
+      <span class="gold">Class</span><br>
+      <em>Beyond</em><br>
+      Time.
+    </h1>
+    <p class="hero-tagline">Timeless · Elegant · You</p>
+    <p class="hero-desc">
+      Make every second extraordinary. K. Classics brings you premium, 100% authentic timepieces crafted for those who demand excellence in every moment.
+    </p>
+    <div class="hero-btns">
+      <a href="#collection" class="btn-primary">Explore Collection</a>
+      <a href="#order" class="btn-outline">Order Now</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">500+</span>
+      <span class="stat-label">Happy Clients</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">6+</span>
+      <span class="stat-label">Collections</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">Authentic</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT BAR -->
+<div class="contact-bar">
+  <a href="tel:08169194976" class="contact-item">
+    <span class="contact-icon">📞</span>
+    <div>
+      <span class="contact-label">Call Us</span>
+      <span class="contact-value">08169194976</span>
+    </div>
+  </a>
+  <a href="https://wa.me/2348169194976" class="contact-item" target="_blank">
+    <span class="contact-icon">💬</span>
+    <div>
+      <span class="contact-label">WhatsApp</span>
+      <span class="contact-value">Chat with Us</span>
+    </div>
+  </a>
+  <a href="https://tiktok.com/@k.classics1" class="contact-item" target="_blank">
+    <span class="contact-icon">🎵</span>
+    <div>
+      <span class="contact-label">TikTok</span>
+      <span class="contact-value">@k.classics1</span>
+    </div>
+  </a>
+  <div class="contact-item">
+    <span class="contact-icon">🚀</span>
+    <div>
+      <span class="contact-label">Delivery</span>
+      <span class="contact-value">Fast & Reliable Nationwide</span>
+    </div>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<section id="collection">
+  <div class="section-header">
+    <span class="section-eyebrow">Our Watches</span>
+    <h2 class="section-title">The <span class="italic">Collection</span></h2>
+    <div class="section-divider"></div>
+    <p style="color: var(--gray); max-width: 500px; margin: 0 auto; font-size: 1rem; line-height: 1.8;">
+      Six iconic pieces, each a statement of precision and style.
+    </p>
+  </div>
+
+  <div class="watches-grid" id="watchesGrid">
+    <!-- Cards generated by JS -->
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="section-header">
+    <span class="section-eyebrow">Place Your Order</span>
+    <h2 class="section-title">Own Your <span class="italic">Timepiece</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="order-grid">
+    <div class="order-info">
+      <h3>Why Order From Us?</h3>
+      <p>
+        Every K. Classics watch is 100% authentic, quality-tested, and shipped with care across Nigeria. We guarantee satisfaction or your money back.
+      </p>
+      <ul class="order-perks">
+        <li><span class="perk-icon">✦</span> Fast & Reliable Delivery Nationwide</li>
+        <li><span class="perk-icon">✦</span> 100% Authentic, Quality Guaranteed</li>
+        <li><span class="perk-icon">✦</span> Satisfaction or Full Refund</li>
+        <li><span class="perk-icon">✦</span> Excellent Customer Service</li>
+        <li><span class="perk-icon">✦</span> Affordable Luxury — ₦5,000 to ₦50,000</li>
+        <li><span class="perk-icon">✦</span> Gift Packaging Available</li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <div class="form-title">Place An Order</div>
+      <form id="orderForm" onsubmit="submitOrder(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="oFirstName" placeholder="Emeka" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="oLastName" placeholder="Okafor" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="oPhone" placeholder="0812 345 6789" required>
+        </div>
+        <div class="form-group">
+          <label>Delivery Address</label>
+          <input type="text" id="oAddress" placeholder="123 Victoria Island, Lagos" required>
+        </div>
+        <div class="form-group">
+          <label>Select Watch</label>
+          <select id="oWatch" required onchange="updateOrderPrice()">
+            <option value="">Choose a timepiece...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Quantity</label>
+          <select id="oQty" onchange="updateOrderPrice()">
+            <option value="1">1 watch</option>
+            <option value="2">2 watches</option>
+            <option value="3">3 watches</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Special Instructions</label>
+          <textarea id="oNotes" placeholder="Gift wrapping, colour preference, etc."></textarea>
+        </div>
+        <div id="orderPriceDisplay" style="padding: 1rem; background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); margin-bottom: 1.5rem; display: none;">
+          <div style="font-family: 'Josefin Sans', sans-serif; font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem;">Order Total</div>
+          <div id="orderPriceValue" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold);"></div>
+        </div>
+        <button type="submit" class="btn-submit">Confirm Order →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section id="signup">
+  <div class="section-header">
+    <span class="section-eyebrow">Join The Family</span>
+    <h2 class="section-title">Become a <span class="italic">Member</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="signup-grid">
+    <div class="signup-visual">
+      <h3>K. Classics Members</h3>
+      <p>Join our exclusive community and enjoy early access to new arrivals, exclusive member discounts, and luxury lifestyle content.</p>
+      <ul class="benefits-list">
+        <li>Early access to new collections</li>
+        <li>Exclusive member-only discounts</li>
+        <li>Birthday luxury surprise</li>
+        <li>Priority customer service</li>
+        <li>Invite to exclusive events</li>
+        <li>Monthly style newsletter</li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <div class="form-title">Create Your Account</div>
+      <form id="signupForm" onsubmit="submitSignup(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="sFirstName" placeholder="Chioma" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="sLastName" placeholder="Eze" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="sEmail" placeholder="chioma@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="sPhone" placeholder="0812 345 6789" required>
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <select id="sState" required>
+            <option value="">Select your state...</option>
+            <option>Lagos</option><option>Abuja</option><option>Rivers</option>
+            <option>Kano</option><option>Oyo</option><option>Enugu</option>
+            <option>Anambra</option><option>Delta</option><option>Edo</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="sPassword" placeholder="Create a password" required>
+        </div>
+        <button type="submit" class="btn-submit">Join K. Classics →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKING -->
+<section id="tracking">
+  <div class="section-header">
+    <span class="section-eyebrow">Delivery Tracker</span>
+    <h2 class="section-title">Track Your <span class="italic">Order</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="tracking-container">
+    <div class="form-card">
+      <div class="form-title">Enter Order Details</div>
+      <div class="form-group">
+        <label>Order ID</label>
+        <input type="text" id="trackId" placeholder="e.g. KC-2026-00123">
+      </div>
+      <div class="form-group">
+        <label>Phone Number Used</label>
+        <input type="tel" id="trackPhone" placeholder="0812 345 6789">
+      </div>
+      <button class="btn-submit" onclick="trackOrder()" style="margin-top: 0.5rem;">Track My Order →</button>
+    </div>
+
+    <div class="tracking-result" id="trackingResult">
+      <h4 style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); margin-bottom: 1rem;">📦 Order Found!</h4>
+
+      <div class="tracking-steps">
+        <div class="track-step">
+          <div class="step-dot active">✅</div>
+          <div class="step-label active">Confirmed</div>
+        </div>
+        <div class="track-step">
+          <div class="step-dot active">📦</div>
+          <div class="step-label active">Packaged</div>
+        </div>
+        <div class="track-step">
+          <div class="step-dot active">🚚</div>
+          <div class="step-label active">In Transit</div>
+        </div>
+        <div class="track-step">
+          <div class="step-dot">🏠</div>
+          <div class="step-label">Delivered</div>
+        </div>
+      </div>
+
+      <div class="track-info">
+        <div class="track-item">
+          <label>Order ID</label>
+          <span id="tOrderId">KC-2026-00123</span>
+        </div>
+        <div class="track-item">
+          <label>Status</label>
+          <span style="color: #4aff9e;">In Transit 🚚</span>
+        </div>
+        <div class="track-item">
+          <label>Watch</label>
+          <span>Royal Blue Chronograph</span>
+        </div>
+        <div class="track-item">
+          <label>Est. Delivery</label>
+          <span>1–2 Business Days</span>
+        </div>
+        <div class="track-item">
+          <label>Courier</label>
+          <span>GIG Logistics</span>
+        </div>
+        <div class="track-item">
+          <label>Amount Paid</label>
+          <span style="color: var(--gold);">₦35,000</span>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--gray); line-height: 1.7;">
+        Need help? Call us on <a href="tel:08169194976" style="color: var(--gold);">08169194976</a> or WhatsApp us for real-time updates.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="map-section">
+  <div class="section-header">
+    <span class="section-eyebrow">Find Us</span>
+    <h2 class="section-title">Our <span class="italic">Locations</span></h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="map-container">
+    <div class="map-overlay">
+      <h4>📍 K. Classics Lagos HQ</h4>
+      <p>
+        Victoria Island, Lagos<br>
+        Nigeria<br><br>
+        Mon – Sat: 9am – 7pm<br>
+        Sun: 12pm – 5pm
+      </p>
+    </div>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7286344050566!2d3.4056!3d6.4281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMjUnNDEuMiJOIDPCsDI0JzIwLjIiRQ!5e0!3m2!1sen!2sng!4v1620000000000!5m2!1sen!2sng"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <div class="stores-grid">
+    <div class="store-card">
+      <h4>📍 Lagos — Victoria Island</h4>
+      <p>123 Adeola Odeku Street<br>Victoria Island, Lagos<br>📞 08169194976<br>Mon–Sat: 9am–7pm</p>
+    </div>
+    <div class="store-card">
+      <h4>📍 Lagos — Ikeja</h4>
+      <p>45 Allen Avenue<br>Ikeja, Lagos<br>📞 08169194976<br>Mon–Sat: 9am–6pm</p>
+    </div>
+    <div class="store-card">
+      <h4>📍 Abuja — Wuse II</h4>
+      <p>Plot 12 Aminu Kano Crescent<br>Wuse II, Abuja<br>📞 08169194976<br>Mon–Sat: 10am–6pm</p>
+    </div>
+    <div class="store-card">
+      <h4>🚚 Nationwide Delivery</h4>
+      <p>We deliver to all 36 states<br>via trusted couriers<br>Fast & Reliable<br>1–3 Business Days</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section id="social">
+  <div class="section-header">
+    <span class="section-eyebrow">Follow The Journey</span>
+    <h2 class="section-title">Stay <span class="italic">Connected</span></h2>
+    <div class="section-divider"></div>
+    <p style="color: var(--gray); max-width: 450px; margin: 0 auto; font-size: 1rem; line-height: 1.8;">
+      Follow us for new arrivals, style tips, and luxury content.
+    </p>
+  </div>
+
+  <div class="social-grid">
+    <a href="https://tiktok.com/@k.classics1" target="_blank" class="social-card tiktok">
+      <span class="social-icon">🎵</span>
+      <span class="social-name">TikTok</span>
+      <span class="social-handle">@k.classics1</span>
+      <span class="social-followers">Watch Our Videos</span>
+    </a>
+    <a href="https://wa.me/2348169194976" target="_blank" class="social-card whatsapp">
+      <span class="social-icon">💬</span>
+      <span class="social-name">WhatsApp</span>
+      <span class="social-handle">+234 816 919 4976</span>
+      <span class="social-followers">Order & Inquire Directly</span>
+    </a>
+    <a href="https://instagram.com/k.classics" target="_blank" class="social-card instagram">
+      <span class="social-icon">📸</span>
+      <span class="social-name">Instagram</span>
+      <span class="social-handle">@k.classics</span>
+      <span class="social-followers">Daily Inspiration</span>
+    </a>
+    <a href="https://facebook.com/kclassicswatches" target="_blank" class="social-card facebook">
+      <span class="social-icon">📘</span>
+      <span class="social-name">Facebook</span>
+      <span class="social-handle">K. Classics Watches</span>
+      <span class="social-followers">Community & Updates</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-bottom">
+    <div class="footer-logo">K. Classics</div>
+    <p class="footer-copy">© 2026 K. Classics — Class Beyond Time. All Rights Reserved.</p>
+    <p class="footer-copy">Premium Watches · Nigeria</p>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toastTitle">Success</div>
+  <div class="toast-msg" id="toastMsg">Your order has been placed!</div>
+</div>
+
+<!-- ORDER CONFIRM MODAL -->
+<div class="modal-overlay" id="orderModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Order Confirmed! 🎉</h3>
+    <p>Thank you for choosing K. Classics. Your luxury timepiece is on its way! Our team will call you within 24 hours to confirm delivery details.</p>
+    <div class="order-summary" id="modalSummary"></div>
+    <button class="btn-submit" onclick="closeModal()">Continue Shopping →</button>
+  </div>
+</div>
+
+<script>
+const watches = [
+  { name: "Royal Blue Chronograph", ref: "KC-001-BLU", color: "🔵", desc: "Bold blue rubber strap with rose gold case. The flagship K. Classics piece.", price: 35000, tag: "Best Seller", tagClass: "tag-blue" },
+  { name: "Midnight Black Edition", ref: "KC-002-BLK", color: "⚫", desc: "All-black stealth design with rose gold indices. Power and mystery.", price: 30000, tag: "Limited", tagClass: "tag-gold" },
+  { name: "Forest Green Elite", ref: "KC-003-GRN", color: "🟢", desc: "Rare green-tone dial with premium strap. Stand out from the crowd.", price: 32000, tag: "Rare", tagClass: "tag-green" },
+  { name: "Classic Charcoal Sport", ref: "KC-004-CHR", color: "⚙️", desc: "Sport-ready charcoal face with black strap. Built for the modern man.", price: 28000, tag: "Popular", tagClass: "tag-gold" },
+  { name: "Silver Prestige", ref: "KC-005-SLV", color: "🤍", desc: "Silver mesh bracelet with clean white dial. Timeless office elegance.", price: 25000, tag: "Classic", tagClass: "tag-blue" },
+  { name: "Gold Supreme", ref: "KC-006-GLD", color: "🌟", desc: "Gold-tone case with silver mesh. The ultimate luxury statement.", price: 50000, tag: "Premium", tagClass: "tag-gold" },
+  { name: "Rose Navigator", ref: "KC-007-RSE", color: "🌸", desc: "Rose gold accents with navy face. Refined elegance for every occasion.", price: 22000, tag: "Elegant", tagClass: "tag-blue" },
+  { name: "Entry Classic", ref: "KC-008-ENT", color: "⌚", desc: "Perfect introduction to K. Classics. Affordable luxury with authentic quality.", price: 5000, tag: "Starter", tagClass: "tag-green" },
+];
+
+// Render watch cards
+const grid = document.getElementById('watchesGrid');
+const watchSelect = document.getElementById('oWatch');
+
+watches.forEach((w, i) => {
+  const card = document.createElement('div');
+  card.className = 'watch-card';
+  card.innerHTML = `
+    <span class="watch-emoji">${w.color}</span>
+    <div class="watch-tag ${w.tagClass}">${w.tag}</div>
+    <div class="watch-name">${w.name}</div>
+    <div class="watch-ref">${w.ref}</div>
+    <div class="watch-desc">${w.desc}</div>
+    <div class="watch-price">₦${w.price.toLocaleString()}</div>
+    <button class="btn-order" onclick="quickOrder('${w.name}', ${w.price})">Order This Watch</button>
+  `;
+  grid.appendChild(card);
+
+  const opt = document.createElement('option');
+  opt.value = i;
+  opt.textContent = `${w.name} — ₦${w.price.toLocaleString()}`;
+  watchSelect.appendChild(opt);
+});
+
+function updateOrderPrice() {
+  const idx = document.getElementById('oWatch').value;
+  const qty = parseInt(document.getElementById('oQty').value) || 1;
+  if (idx === '') { document.getElementById('orderPriceDisplay').style.display = 'none'; return; }
+  const w = watches[idx];
+  const total = w.price * qty;
+  document.getElementById('orderPriceDisplay').style.display = 'block';
+  document.getElementById('orderPriceValue').textContent = `₦${total.toLocaleString()}`;
+}
+
+function quickOrder(name, price) {
+  document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => {
+    const sel = document.getElementById('oWatch');
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text.startsWith(name)) {
+        sel.selectedIndex = i;
+        updateOrderPrice();
+        break;
+      }
+    }
+  }, 800);
+}
+
+function submitOrder(e) {
+  e.preventDefault();
+  const idx = document.getElementById('oWatch').value;
+  const qty = parseInt(document.getElementById('oQty').value) || 1;
+  if (idx === '') { showToast('⚠️ Missing Watch', 'Please select a watch.'); return; }
+  const w = watches[idx];
+  const total = w.price * qty;
+  const name = `${document.getElementById('oFirstName').value} ${document.getElementById('oLastName').value}`;
+
+  const orderId = 'KC-2026-' + Math.floor(Math.random() * 90000 + 10000);
+
+  document.getElementById('modalSummary').innerHTML = `
+    <div class="order-summary-row"><span>Order ID</span><span>${orderId}</span></div>
+    <div class="order-summary-row"><span>Customer</span><span>${name}</span></div>
+    <div class="order-summary-row"><span>Watch</span><span>${w.name}</span></div>
+    <div class="order-summary-row"><span>Quantity</span><span>${qty}</span></div>
+    <div class="order-summary-row"><span>Total</span><span class="order-total">₦${total.toLocaleString()}</span></div>
+  `;
+
+  document.getElementById('orderModal').classList.add('open');
+  document.getElementById('orderForm').reset();
+  document.getElementById('orderPriceDisplay').style.display = 'none';
+}
+
+function submitSignup(e) {
+  e.preventDefault();
+  const name = document.getElementById('sFirstName').value;
+  showToast('✦ Welcome, ' + name + '!', 'You\'ve joined K. Classics. Check your phone for confirmation.');
+  document.getElementById('signupForm').reset();
+}
+
+function trackOrder() {
+  const id = document.getElementById('trackId').value.trim();
+  const phone = document.getElementById('trackPhone').value.trim();
+  if (!id || !phone) { showToast('⚠️ Missing Info', 'Please enter your Order ID and phone number.'); return; }
+  document.getElementById('tOrderId').textContent = id;
+  document.getElementById('trackingResult').classList.add('show');
+  document.getElementById('trackingResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function showToast(title, msg) {
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+function closeModal() { document.getElementById('orderModal').classList.remove('open'); }
+function openMobileNav() { document.getElementById('mobileNav').classList.add('open'); }
+function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+// Close modal on backdrop click
+document.getElementById('orderModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
